@@ -10,30 +10,32 @@ app.set("view engine", "ejs");
 // SCHEMA SETUP
 var campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
-// Campground.create(
-//   {
-//     name: "Granite Hill", 
-//     image: "https://farm4.staticflickr.com/3751/9580653400_e1509d6696.jpg"
-    
-//   },function (err, campground) {
-//     if(err){
-//       console.log(err);
-//     } else {
-//       console.log("NEWLY CREATED CAMPGROUND: ");
-//       console.log(campground);
-//     }
-//   }
-//     )  
+Campground.create(
+  {
+    name: "Granite Hill", 
+    image: "https://farm4.staticflickr.com/3751/9580653400_e1509d6696.jpg",
+    description: "This is a huge granite hill, no bathrooms. No water. Beautiful granite!"
+  },function (err, campground) {
+    if(err){
+      console.log(err);
+    } else {
+      console.log("NEWLY CREATED CAMPGROUND: ");
+      console.log(campground);
+    }
+  }
+    )  
 
 app.get("/", function (req, res) {
   res.render("landing"); 
 });
 
+//INDEX - show all cmpgrounds
 app.get("/campgrounds", function (req, res) {
  // Get all campgrounds from DB
  Campground.find({}, function(err, allCampgrounds){
@@ -46,7 +48,7 @@ app.get("/campgrounds", function (req, res) {
   
 });
 
-
+//CREATE - add new campground to DB
 app.post("/campgrounds", function (req, res) {
 // get data from form and add to campgrounds page
 var name = req.body.name;
@@ -63,9 +65,15 @@ res.redirect("/campgrounds");
 });
 });
 
+//NEW - show form to create new campground
 app.get("/campgrounds/new", function (req, res) {
     res.render("new.ejs");
 });
+   
+app.get("/campgrounds/:id", function(req, res) {
+    //find the campground with provided ID
+    //render show template with that campground
+});   
     
 app.listen(process.env.PORT, process.env.IP, function () {
     console.log("The YelpCamp Server Has Started!");
