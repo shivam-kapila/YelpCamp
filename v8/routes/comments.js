@@ -10,6 +10,7 @@ router.get("/new", isLoggedIn, function(req, res) {
         if(err){
             console.log(err);
         } else {
+            console.log(req.user);
             res.render("comments/new", {campground: campground});
 
         }
@@ -29,11 +30,10 @@ router.post("/", isLoggedIn, function(req, res){
                     console.log(err);
                 } else {
                     //add username and id to comment
+                    comment.author.id = req.user.id;
+                    comment.author.username = req.user.username;
                     //save comment
-                    comment.author.id = req.body.id;
-                    comment.author.username = req.body.username;
                     comment.save();
-                    console.log(req.body.username);
                     campground.comments.push(comment);
                     campground.save();
                     res.redirect('/campgrounds/' + campground._id);
