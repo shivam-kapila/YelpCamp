@@ -41,7 +41,6 @@ router.get("/", function (req, res) {
     if(req.query.search) {
    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
    // Get all campgrounds from DB
-   console.log(req.query.search);
    console.log(regex);
  Campground.find({name: regex}, function(err, allCampgrounds){
    if(err){
@@ -61,7 +60,7 @@ router.get("/", function (req, res) {
    if(err){
      console.log(err);
    } else {
-  res.render("campgrounds/index", {campgrounds:allCampgrounds, noMatch: noMatch});    
+  res.render("campgrounds/index", {campgrounds:allCampgrounds, noMatch: noMatch, page: 'campgrounds'});    
    }
  });
     }
